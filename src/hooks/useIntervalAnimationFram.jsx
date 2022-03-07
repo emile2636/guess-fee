@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { useState } from 'react/cjs/react.development';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export const useIntervalAnimationFram = (callback, delay = null) => {
   const savedCallback = useRef(callback);

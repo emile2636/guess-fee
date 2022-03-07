@@ -1,4 +1,6 @@
 import Web3 from 'web3';
+export { default as EventBus } from './eventBus';
+
 const { BN } = Web3.utils;
 
 export function avgBN(arr) {

@@ -3,7 +3,7 @@ import { Web3Context } from '../context/Web3Context';
 import Web3 from 'web3';
 import { useBlockNumber } from '../hooks/useBlockNumber';
 import { useCount } from '../hooks/useCount';
-import { avgBN, avg, formatFeeHistory } from '../utils';
+import { avgBN, avg, formatFeeHistory, EventBus } from '../utils';
 import { FeeCard } from '.';
 import { Count } from '.';
 
@@ -48,7 +48,7 @@ export default function FeeCardContainer() {
   }, [web3]);
 
   const resetCount = () => {
-    setCountKey(!countKey);
+    EventBus.emit('RESET_COUNT');
   };
 
   useEffect(() => {
@@ -58,13 +58,13 @@ export default function FeeCardContainer() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <div className="flex-1 p-8 text-white">
+      <div className="flex-1 m-8 text-white">
         <p>Pending Block Number: {blockNumber}</p>
         <p>
-          Time since last Update: <Count key={countKey} /> Sec
+          Time since last Update: <Count /> Sec
         </p>
       </div>
-      <div className="w-3/4 flex flex-col md:flex-row justify-around items-center p-8">
+      <div className="w-3/4 flex flex-col md:flex-row justify-around items-center m-8">
         <FeeCard key="Fast" type="Fast" color={colorSet.fast} est={est.fast} sample={75} />
         <FeeCard key="Avg" type="Avg" color={colorSet.avg} est={est.avg} sample={50} />
         <FeeCard key="Slow" type="Slow" color={colorSet.slow} est={est.slow} sample={25} />
