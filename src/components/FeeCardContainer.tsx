@@ -3,27 +3,31 @@ import { Web3Context } from '../context/Web3Context';
 import Web3 from 'web3';
 import { useBlockNumber } from '../hooks/useBlockNumber';
 import { useCount } from '../hooks/useCount';
-import { avgBN, avg, formatFeeHistory, EventBus } from '../utils';
+import { avgBN, avg, formatFeeHistory } from '../utils';
 import { FeeCard } from '.';
-import { Count } from '.';
+import { Flex, Spacer, Text } from '@chakra-ui/react';
+import { BN } from 'bn.js';
 
-const { BN, toBN, fromWei } = Web3.utils;
-
-const colorSet = {
-  slow: 'bg-orange-200 text-orange-800',
-  avg: 'bg-lime-400 text-lime-700',
-  fast: 'bg-purple-600 text-purple-100',
-};
+const { fromWei } = Web3.utils;
 
 export default function FeeCardContainer() {
-  const { web3 } = useContext(Web3Context);
+  const context = useContext(Web3Context);
+  const web3 = context?.web3;
   const blockNumber = useBlockNumber();
-  const [est, setEst] = useState({});
-  const [countKey, setCountKey] = useState(true);
+  const { count, reset: resetCount } = useCount();
+  const [est, setEst] = useState<{
+    slow: string;
+    fast: string;
+    avg: string;
+  }>({
+    slow: '0',
+    fast: '0',
+    avg: '0',
+  });
 
   const fetchBlocksFee = useCallback(() => {
     if (!web3) return;
-    const historicalBlocks = 4;
+    const historicalBlocks = 24;
     web3.eth.getFeeHistory(historicalBlocks, 'pending', [25, 50, 75]).then((feeHistory) => {
       const blocksFee = formatFeeHistory(feeHistory);
       const slow = avgBN(blocksFee.map((f) => new BN(f[0])));
@@ -47,28 +51,28 @@ export default function FeeCardContainer() {
     });
   }, [web3]);
 
-  const resetCount = () => {
-    EventBus.emit('RESET_COUNT');
-  };
-
   useEffect(() => {
     fetchBlocksFee();
     resetCount();
   }, [blockNumber]);
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
-      <div className="flex-1 m-8 text-white">
-        <p>Pending Block Number: {blockNumber}</p>
-        <p>
-          Time since last Update: <Count /> Sec
-        </p>
-      </div>
-      <div className="w-3/4 flex flex-col md:flex-row justify-around items-center m-8">
-        <FeeCard key="Fast" type="Fast" color={colorSet.fast} est={est.fast} sample={75} />
-        <FeeCard key="Avg" type="Avg" color={colorSet.avg} est={est.avg} sample={50} />
-        <FeeCard key="Slow" type="Slow" color={colorSet.slow} est={est.slow} sample={25} />
-      </div>
-    </div>
+    <Flex flexDirection={{ base: 'column' }} width="100%">
+      <Flex>
+        <Text fontSize="xs" color="whiteAlpha.500">
+          Pending Block Number: {blockNumber}
+        </Text>
+        <Spacer />
+        <Text fontSize="xs" color="whiteAlpha.500">
+          Time since last Update: {count} Sec
+        </Text>
+      </Flex>
+      <br />
+      <Flex gap={8} flexDirection={{ base: 'column', sm: 'row' }}>
+        <FeeCard key="Fast" type="Fast" est={est.fast} sample={75} />
+        <FeeCard key="Avg" type="Avg" est={est.avg} sample={50} />
+        <FeeCard key="Slow" type="Slow" est={est.slow} sample={25} />
+      </Flex>
+    </Flex>
   );
 }

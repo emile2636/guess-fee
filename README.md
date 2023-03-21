@@ -1,6 +1,6 @@
 <div align="center">
   
-<h3 align="center">feeze</h3>
+<h3 align="center">guess-fee</h3>
 
   <p align="center">
     Ethereum Gas fee estimate for EIP-1559
@@ -28,8 +28,6 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -37,8 +35,8 @@
 
 ## About The Project
 
-Inspired by [Alchemy](https://docs.alchemy.com/alchemy/guides/eip-1559/gas-estimator)
-My First step into web3
+Inspired by [Alchemy Gas Estimator](https://docs.alchemy.com/alchemy/guides/eip-1559/gas-estimator)
+A little step into web3
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -80,7 +78,7 @@ This is an example of how to list things you need to use the software and how to
 4. Create and Config your ENV in `.env`
    ```
    VITE_INFURA_KEY = 'ENTER YOUR INFURA_PROJECT_KEY'
-   VITE_INFURA_NET = 'ENTER ETHEREUM NET(mainnet/ropsten/...)'
+   VITE_INFURA_ENDPOINT = 'ENTER ENDPOINT'
    ```
 5. Run
    ```sh
@@ -101,7 +99,8 @@ Estimate
 
 ## Roadmap
 
-- [] TypeScript
+- [✅] TypeScript
+- [⚠] Wagmi
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
@@ -129,25 +128,5 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## Contact
-
-<!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name) -->
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>

@@ -6,22 +6,20 @@ import { useInterval } from '../hooks/useInterval';
 export const useBlockNumber = () => {
   const { web3 } = useContext(Web3Context);
   const [blocksNumber, setBlockNumber] = useState(0);
-  const getBlock = useCallback(() => {
+
+  const getBlock = () => {
     web3.eth.getBlock('pending').then((block) => {
       if (blocksNumber === block.number) return;
       setBlockNumber(block.number);
     });
-  });
+  };
 
   useEffect(() => {
     if (!web3) return;
-    web3.eth.getBlock('pending').then((block) => {
-      if (blocksNumber === block.number) return;
-      setBlockNumber(block.number);
-    });
-  }, [web3]);
+    getBlock();
+  }, [web3]); // getBlock first time
 
-  useInterval(getBlock, 10000);
+  useInterval(getBlock, 5000); // interval every 10s
 
   return blocksNumber;
 };
